@@ -24,8 +24,8 @@ public class App {
             System.out.println("3. Exit");
             System.out.print("Choose an option: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Clear the newline
+            // Use the helper method to get a valid integer input
+            int choice = getValidIntegerInput(scanner); 
 
             switch (choice) {
                 case 1:
@@ -52,11 +52,25 @@ public class App {
         }
     }
 
+    // Helper method to safely get a valid integer input
+    private static int getValidIntegerInput(Scanner scanner) {
+        while (true) {
+            try {
+                // This parses the input as an integer and returns it
+                return Integer.parseInt(scanner.nextLine()); 
+            } catch (NumberFormatException e) {
+                System.out.print("Invalid input. Please enter a number: ");
+            }
+        }
+    }
+
     // Generates an AES encryption key
     private static SecretKey generateKey() {
         try {
             KeyGenerator keyGen = KeyGenerator.getInstance(AES);
-            keyGen.init(128); // Use a 128-bit key
+            // Using a 128 bit key becaue of it was better supported
+            // Also Chris said it was fine
+            keyGen.init(128); 
             return keyGen.generateKey();
         } catch (Exception e) {
             throw new RuntimeException("Key generation failed: " + e.getMessage());
